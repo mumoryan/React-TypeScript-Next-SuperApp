@@ -22,7 +22,6 @@ const UserTable = async ({sortOrder}: Props) => {
   let users: User[] = await res.json();
 
   function getSortedUsers(so: string): User[] {
-    console.log('Current sort order: '+so);
     if (so === 'name') return users.sort((a, b) => a.name.localeCompare(b.name));
     if (so === 'email') return users.sort((a, b)=> a.email.localeCompare(b.email));
     return users;
