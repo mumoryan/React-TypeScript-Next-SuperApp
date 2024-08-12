@@ -1,0 +1,45 @@
+#body > div{
+  background-color: 1px red solid;
+}
+
+#page > div{
+  color: white;
+}
+
+#page{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#header{
+  min-height: 100px;
+  background-color: rgb(230, 101, 41);
+}
+
+#body {
+  display: flex;
+  flex-grow: 1;
+  background-color: hotpink;
+}
+
+#navleft {
+  width: 100px;
+  flex-shrink: 0;
+  background-color: rgb(19, 172, 172);
+}
+
+#main {
+  flex-grow: 1;
+}
+
+#navright {
+  width: 100px;
+  flex-shrink: 0;
+  background-color: rgb(14, 119, 161);
+}
+
+#footer{
+  min-height: 100px;
+  background-color: blue;
+}
