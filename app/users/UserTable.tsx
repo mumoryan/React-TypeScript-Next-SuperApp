@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react'
 
 interface User {
@@ -6,7 +7,11 @@ interface User {
   email: string;
 }
 
-const UserTable = async () => {
+interface Props {
+  sortOrder: string;
+}
+
+const UserTable = async ({sortOrder}: Props) => {
   const res = await fetch('https://jsonplaceholder.typicode.com/users',
     { next: { revalidate: 10 } }); // this is the data cache from Next.js. This here states that the fetch call
   // is cached (by default even without this line) and the cache is refreshed every 10 seconds.
@@ -14,18 +19,29 @@ const UserTable = async () => {
   // The alternative below shows that when we force no caching, the data is dynamically rendered when you do a build.
   // const res = await fetch('https://jsonplaceholder.typicode.com/users', { cache: 'no-store' });
 
-  const users: User[] = await res.json();
+  let users: User[] = await res.json();
+
+  function getSortedUsers(so: string): User[] {
+    console.log('Current sort order: '+so);
+    if (so === 'name') return users.sort((a, b) => a.name.localeCompare(b.name));
+    if (so === 'email') return users.sort((a, b)=> a.email.localeCompare(b.email));
+    return users;
+  }
 
   return (
     <table className='table table-bordered'>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
+            <th>
+              <Link href="/users?sortOrder=name">Name</Link>
+            </th>
+            <th>
+              <Link href="/users?sortOrder=email">Email</Link>
+            </th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {getSortedUsers(sortOrder).map((user) => (
             <tr key={user.id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
